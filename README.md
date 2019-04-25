@@ -6,7 +6,7 @@ To get the summarizer to work one first has to install requiered libraries and r
 
 ### Prerequisites
 
-Besides Python 3.x, following libraries are additionally requiered, run the following commands in your shell
+Besides Python 3.x and tensorflow 1.3 following libraries are additionally requiered, run the following commands in your shell
 
 ```
 pip install sentencepiece
