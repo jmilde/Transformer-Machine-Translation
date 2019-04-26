@@ -1,5 +1,4 @@
-from copy import copy
-from util import Record
+from util_io import load_txt
 import tensorflow as tf
 from util_np import sample, np, vpack
 
@@ -35,10 +34,10 @@ def placeholder(dtype, shape, x= None, name= None):
     return tf.placeholder_with_default(x, shape, name)
 
 
-def batch(size, path_txt, path_tgt, eos, seed):
-    """batch function to use with pipe, takes to numpy labels as input"""
-    text = np.load(path_txt)
-    tgt = np.load(path_tgt)
+def batch(size, path_txt, path_tgt, vocab_enc, vocab_dec, max_len, eos, seed=25):
+    """creates batch generator to use with "pipe", for inpt and tgt txt that are encoded with spm"""
+    text = tuple(load_txt(path_txt))
+    tgt = tuple(load_txt(path_tgt))
     b_enc, b_dec = [], []
     for i in sample(len(text), seed):
         if size == len(b_enc):
@@ -46,8 +45,12 @@ def batch(size, path_txt, path_tgt, eos, seed):
             b_dec = vpack(b_dec, (size, max(map(len, b_dec))), eos, np.int32)
             yield b_enc, b_dec
             b_enc, b_dec = [], []
-        b_enc.append(text[i])
-        b_dec.append(tgt[i])
+        s_enc = vocab_enc.sample_encode_as_ids(text[i], -1, 0.5)
+        s_dec = vocab_dec.sample_encode_as_ids(tgt[i], -1, 0.5)
+        if 0 < len(s_enc) <= max_len and 0 < len(s_dec) <= max_len:
+            b_enc.append(s_enc)
+            b_dec.append(s_dec)
+
 
 
 

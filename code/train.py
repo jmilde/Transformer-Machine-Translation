@@ -55,7 +55,9 @@ def train(trial, data_path, path_ckpt, path_log, gpu, max_len, batch_size, batch
     ##############################################################################################
 
     # INPUT
-    batch_fn = lambda: batch(batch_size, path_traintxt, path_traintgt, eos, 25)
+    batch_fn = lambda: batch(batch_size, path_traintxt, path_traintgt,
+                             vocab_enc, vocab_dec, max_len, eos, 25)
+
     data = pipe(batch_fn, (tf.int32, tf.int32), prefetch=4)
     model = transformer(data, batch_size, emb_dim, heads, layers, att_dim, mlp_dim, dim_vocab, \
                         max_len, lbl_smooth, eos, dropout, True, warmup)

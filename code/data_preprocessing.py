@@ -13,8 +13,8 @@ def preprocess(data_path, valid_size, max_len):
     path_vocab_eng = pform(data_path, "vocab_eng")
     path_ger_txt = pform(data_path, "ger_txt.txt")
     path_eng_txt = pform(data_path, "eng_txt.txt")
-    path_traintxt = pform(data_path, "train_txt.npy")
-    path_traintgt = pform(data_path, "train_tgt.npy")
+    path_traintxt = pform(data_path, "train_txt.txt")
+    path_traintgt = pform(data_path, "train_tgt.txt")
     path_validtxt = pform(data_path, "valid_txt.npy")
     path_validtgt = pform(data_path, "valid_tgt.npy")
 
@@ -65,19 +65,9 @@ def preprocess(data_path, valid_size, max_len):
     np.save(path_validtxt, valid_txt)
     np.save(path_validtgt, valid_tgt)
 
-    # encode with sentence piece and save training set
-    train_txt, train_tgt = [], []
-    for ger, eng in zip(sent_ger[last:], sent_eng[last:]):
-        g = vocab_ger.encode_as_ids(ger)
-        e = vocab_eng.encode_as_ids(eng)
-        if len(g)<=max_len and len(e)<=max_len:
-            train_txt.append(g)
-            train_tgt.append(e)
-
-    train_txt = np.array([np.asarray(x, dtype=np.uint16) for x in train_txt])
-    train_tgt = np.array([np.asarray(x, dtype=np.uint16) for x in train_tgt])
-    np.save(path_traintxt, train_txt)
-    np.save(path_traintgt, train_tgt)
+    # save the training data as txt
+    save_txt(path_traintxt, sent_ger[last:])
+    save_txt(path_traintgt, sent_eng[last:])
 
 if __name__ == "__main__":
     for key, val in params.items():
