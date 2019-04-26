@@ -1,5 +1,6 @@
 # Transformer Translation with SentencePiece 
 This is an implementation of the transformer architecture, combined with using SentencePiece for the text processing.
+This branch uses Sentence Piece Sampling as additional regularization (see http://arxiv.org/abs/1804.10959 for reference).
 ## Getting Started
 
 To get the summarizer to work one first has to install requiered libraries and run some preprocessings
