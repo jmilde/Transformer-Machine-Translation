@@ -9,19 +9,13 @@ To get the summarizer to work one first has to install requiered libraries and r
 Besides Python 3.x and tensorflow 1.3 following libraries are additionally requiered, run the following commands in your shell
 
 ```
-pip install sentencepiece
-pip install sacrebleu
-pip install numpy
-pip install tqdm
+pip install sentencepiece sacrebleu numpy tqdm
 ```
 The default for all following instructions is to have the project folder as cd.
 
 First run the following commands
 ```
-mkdir ./data
-mkdir ./ckpt
-mkdir ./log
-mkdir ./results
+mkdir ./data ./ckpt ./log ./results
 ```
 In the next step download the german-english corpus from 
 ```
